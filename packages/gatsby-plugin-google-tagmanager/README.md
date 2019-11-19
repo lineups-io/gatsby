@@ -16,6 +16,9 @@ plugins: [
     options: {
       id: "YOUR_GOOGLE_TAGMANAGER_ID",
 
+      // Use ids instead of id option to load multiple GTM containers
+      ids: ["YOUR_GOOGLE_TAGMANAGER_ID", "ANOTHER_GOOGLE_TAGMANAGER_ID"],
+
       // Include GTM in development.
       // Defaults to false meaning GTM will only be loaded in production.
       includeInDevelopment: false,

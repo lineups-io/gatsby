@@ -34,7 +34,8 @@ const generateDefaultDataLayer = (dataLayer, reporter, dataLayerName) => {
 exports.onRenderBody = (
   { setHeadComponents, setPreBodyComponents, reporter },
   {
-    id,
+    id: gtmId,
+    ids = [],
     includeInDevelopment = false,
     gtmAuth,
     gtmPreview,
@@ -59,7 +60,11 @@ exports.onRenderBody = (
       )
     }
 
-    setHeadComponents([
+    if (gtmId && ids.indexOf(gtmId) === -1) {
+      ids.push(gtmId)
+    }
+
+    setHeadComponents(ids.map(id =>
       <script
         key="plugin-google-tagmanager"
         dangerouslySetInnerHTML={{
@@ -68,15 +73,15 @@ exports.onRenderBody = (
             ${generateGTM({ id, environmentParamStr, dataLayerName })}`,
         }}
       />,
-    ])
+    ))
 
-    setPreBodyComponents([
+    setPreBodyComponents(ids.map(id =>
       <noscript
         key="plugin-google-tagmanager"
         dangerouslySetInnerHTML={{
           __html: generateGTMIframe({ id, environmentParamStr }),
         }}
       />,
-    ])
+    ))
   }
 }
